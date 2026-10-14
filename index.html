@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Céus &amp; Eras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=8">
+</head>
+<body>
+  <div class="stars-bg" aria-hidden="true"></div>
+
+  <header class="topo">
+    <h1 id="titulo">Céus &amp; Eras</h1>
+    <p class="mensagem" id="mensagem"></p>
+    <nav class="abas" role="tablist">
+      <a href="#v=ceu" class="aba" data-view="ceu" role="tab">O céu</a>
+      <a href="#v=dinos" class="aba" data-view="dinos" role="tab">Dinossauros</a>
+    </nav>
+  </header>
+
+  <!-- ======================= CÉU ======================= -->
+  <main id="view-ceu" class="view" hidden>
+    <section class="barra painel" aria-label="Escolha o momento">
+      <div class="campo campo-lugar">
+        <label for="lugar-busca">Onde</label>
+        <div class="combo">
+          <input id="lugar-busca" type="text" placeholder="Digite uma cidade…" autocomplete="off" spellcheck="false"
+                 role="combobox" aria-autocomplete="list" aria-controls="lugar-lista" aria-expanded="false">
+          <ul id="lugar-lista" class="sugestoes" role="listbox" hidden></ul>
+        </div>
+      </div>
+      <div class="campo">
+        <label for="ceu-data">Dia</label>
+        <input type="date" id="ceu-data">
+      </div>
+      <div class="campo">
+        <label for="ceu-hora">Hora</label>
+        <span class="hora-linha">
+          <button type="button" class="mini" id="hora-menos" aria-label="Uma hora antes">−1h</button>
+          <input type="time" id="ceu-hora">
+          <button type="button" class="mini" id="hora-mais" aria-label="Uma hora depois">+1h</button>
+        </span>
+      </div>
+      <div class="campo acoes">
+        <button type="button" id="btn-agora">Agora</button>
+        <button type="button" id="btn-play" aria-pressed="false">▶ Acelerar o tempo</button>
+        <button type="button" id="btn-especial" class="destaque" hidden></button>
+      </div>
+    </section>
+
+    <section class="opcoes" aria-label="Opções do mapa">
+      <div class="segmentado" role="group" aria-label="Tipo de visão">
+        <button type="button" data-modo="chao" aria-pressed="true">Vista do chão</button>
+        <button type="button" data-modo="cupula" aria-pressed="false">Céu inteiro</button>
+      </div>
+      <div class="toggles">
+        <label class="check"><input type="checkbox" id="opt-linhas" checked> constelações</label>
+        <label class="check"><input type="checkbox" id="opt-nomes" checked> nomes</label>
+        <label class="check"><input type="checkbox" id="opt-via" checked> Via Láctea</label>
+        <label class="check"><input type="checkbox" id="opt-dia"> claridade do dia</label>
+      </div>
+    </section>
+
+    <figure class="mapa">
+      <div class="mapa-caixa" id="mapa-caixa">
+        <canvas id="ceu-canvas" aria-label="Mapa do céu"></canvas>
+        <div class="tooltip" id="ceu-tip" hidden></div>
+        <div class="bussola" id="bussola" aria-label="Olhar para">
+          <button type="button" data-az="0" title="Olhar para o norte">N</button>
+          <button type="button" data-az="90" title="Olhar para o leste">L</button>
+          <button type="button" data-az="180" title="Olhar para o sul">S</button>
+          <button type="button" data-az="270" title="Olhar para o oeste">O</button>
+          <button type="button" data-alt="90" title="Olhar para cima">↑</button>
+        </div>
+        <div class="zoom" id="zoom">
+          <button type="button" data-z="mais" aria-label="Aproximar">+</button>
+          <button type="button" data-z="menos" aria-label="Afastar">−</button>
+        </div>
+        <p class="dica-arraste" id="dica-arraste">arraste para olhar em volta · toque numa estrela para ver o nome</p>
+      </div>
+      <figcaption id="ceu-legenda"></figcaption>
+      <div class="botoes centro">
+        <button type="button" id="btn-link">Copiar link deste céu</button>
+        <button type="button" id="btn-baixar">Baixar como imagem</button>
+      </div>
+      <p class="nota" id="ceu-nota" hidden>Mapa do céu inteiro: o centro é o ponto bem acima da sua cabeça e a borda é o horizonte.
+        Como é um céu visto de baixo para cima, o leste fica à esquerda.</p>
+    </figure>
+
+    <section class="info-grade" id="ceu-info" aria-live="polite"></section>
+  </main>
+
+  <!-- ==================== DINOSSAUROS ==================== -->
+  <main id="view-dinos" class="view" hidden>
+    <section class="dinos-topo">
+      <input type="search" id="dino-busca" placeholder="Procurar um dinossauro… (ex.: Tyrannosaurus, Irritator)" aria-label="Procurar dinossauro">
+      <div class="chips" role="group" aria-label="Filtro">
+        <button type="button" class="chip" data-f="fav">Favoritos</button>
+        <button type="button" class="chip" data-f="br">Do Brasil</button>
+        <button type="button" class="chip" data-f="todos">Todos</button>
+        <button type="button" class="chip surpresa" id="dino-surpresa">Surpreenda-me</button>
+      </div>
+      <p class="dica" id="dino-dica"></p>
+    </section>
+    <section class="grade" id="dino-grade"></section>
+    <div class="centro"><button type="button" id="dino-mais" hidden>Mostrar mais</button></div>
+  </main>
+
+  <!-- detalhe de um dinossauro -->
+  <div class="modal" id="dino-modal" hidden>
+    <div class="modal-fundo" data-fechar></div>
+    <article class="modal-caixa" role="dialog" aria-modal="true" aria-labelledby="dino-nome">
+      <button type="button" class="fechar" data-fechar aria-label="Fechar">×</button>
+      <div id="dino-detalhe"></div>
+    </article>
+  </div>
+
+  <!-- imagem ampliada -->
+  <div class="lightbox" id="lightbox" hidden>
+    <img id="lightbox-img" alt="">
+    <p id="lightbox-legenda"></p>
+  </div>
+
+  <footer class="rodape">
+    Estrelas: catálogo Hipparcos via <a href="https://github.com/ofrohn/d3-celestial" target="_blank" rel="noopener">d3-celestial</a> ·
+    cálculos: <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">Astronomy Engine</a> ·
+    municípios: IBGE via <a href="https://github.com/kelvins/municipios-brasileiros" target="_blank" rel="noopener">municipios-brasileiros</a> ·
+    cidades do mundo: <a href="https://open-meteo.com" target="_blank" rel="noopener">Open-Meteo</a> ·
+    dinossauros: <a href="https://www.wikidata.org" target="_blank" rel="noopener">Wikidata</a>, <a href="https://pt.wikipedia.org" target="_blank" rel="noopener">Wikipédia</a> e <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>
+    (cada imagem tem seu autor e licença — clique nela para ver)
+  </footer>
+
+  <script src="js/config.js?v=8"></script>
+  <script src="js/astronomy.min.js?v=8"></script>
+  <script src="js/sky-data.js?v=8"></script>
+  <script src="js/places-data.js?v=8"></script>
+  <script src="js/dinos-data.js?v=8"></script>
+  <script src="js/places.js?v=8"></script>
+  <script src="js/sky.js?v=8"></script>
+  <script src="js/dinos.js?v=8"></script>
+  <script src="js/app.js?v=8"></script>
+</body>
+</html>
